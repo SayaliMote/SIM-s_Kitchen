@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+{% block metadescription %}
+    {{ product.description|truncatewords:155 }}
+{% endblock %}
+{% block title %}
+    {{ product.name }} - SIM'S Kitchen
+{% endblock %}
+{% block content %}
+    <div class="row my_prod_row_class text-light">
+        <div class="mx-auto">
+            <p><a href="{% url 'shop:all_products' %}">Home</a> | <a href="{{product.type.get_url }}">{{product.type}}</a> |{{product.name}}</p>
+        </div>
+        <div class="container">
+            <br>
+            <div class="row">
+            
+                <div class="cl-12 col-sm-12 col-md-12 col-lg-6 text-center">
+                    <div style="min-width: 18rem;">
+                        <img src="{{product.image.url}}" alt="{{product.name}}">
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-light">
+                    <div>
+                        <h1 class="my_prod_title">{{product.name}}</h1>
+                        <p>€{{product.price}}</p>
+                        <p class="my_title">Product Description</p>
+
+                        <hr>
+                        <h2 class="subtitle">Reviews</h2>
+
+                        <div class="reviews text-light">
+                            {% for review in product.productreview_set.all %}
+                                <div class="notification bg-light text-dark">
+                                    <p>
+                                        <strong>Date: </strong>{{ review.date_added|date:"Y-m-d" }},
+                                        <strong>Stars: </strong>{{ review.stars }}
+                                    </p>
+
+                                    {{ review.content }}
+                                </div>
+                            {% empty %}
+                                <div class="notification">
+                                    No review yet...
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="notification col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+                            {% if request.user.is_authenticated %}
+                                <form  method='post' action=".">
+                                    {% csrf_token %}
+ 
+                                    <div class="field">
+                                        <label>Stars</label>
+
+                                        <div class="control">
+                                            <select name="stars" id="">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3" selected>3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="field">
+                                            <label>Content</label>
+                                            
+                                            <div class="control">
+                                                <textarea class="textarea bg-secondary" name="content" id="" cols="30" rows="10"></textarea>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="field">
+                                            <div class="control">
+                                                <button class="button is-success">Submit</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            {% else %}
+                                <p>Please sign-in to add review</p>
+                            {% endif %}
+                        </div>
+                
+
+                        <p class="text-justify my_prod_text">{{product.description}}</p>
+                        {% if product.stock == 0%}
+                            <p class="text-justify my_prod_text text-danger far fa-window-close"><b>  Sorry, Out of Stock</b></p>
+                        {% else %}
+                            <a class="btn btn-success" href="{% url 'cart:add_cart' product.id %}">Add to Cart <i class="fa fa-shopping-cart"></i></a>
+                            
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

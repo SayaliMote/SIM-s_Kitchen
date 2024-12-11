@@ -1,0 +1,91 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg bg-dark text-light py-4">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div style="text-align: center;">
+                <a href="{%url 'shop:all_products' %}">
+                <img  class="shoplogo" width="100px" src="{% static 'images/shoplogo.png' %}" 
+                alt="Fast Food Restaurant"></a>
+            </div>
+            
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Shop
+                    </a>
+                    
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'shop:all_products' %}">All Products</a></li>
+                            {% for cat in links %}
+                                <li><a class="dropdown-item" href="{{cat.get_absolute_url}}">{{cat.name}}</a></li>
+                            {% endfor %}
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="{% url 'cart:cart_detail' %}">Your Cart</a>
+                </li> 
+                {% if item_count > 0 %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cart:cart_detail' %}"><i 
+                        class="fas fa-shopping-cart text-light">({{item_count}})</i></a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cart:cart_detail' %}"><i 
+                    class="fas fa-shopping-cart text-light">({{item_count}})</i></a>
+                </li>
+                {% endif %}           
+
+            </ul>
+
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container" >
+        <div class="my_custom_menu">
+            <ul>
+                {% if user.is_authenticated %}
+                <li style="color: white;">
+                    Welcome, <a style="color: white;"href="#" class="dropdown-toggle" data-bs-toggle="dropdown" 
+                    aria-haspopup="true" aria-expanded="false">{{ user.username }} 
+                    <i class="fas fa-user-circle"></i></a>
+                    <div class="dropdown-menu dropdown-menu">
+                        <a href="{% url 'order:order_history' %}" class="dropdown-item">Order History</a>
+                    </div>
+                </li>
+                <li>
+                    <a style="color: white;" href="{% url 'logout' %}">Sign Out <i class="fas fa-sign-out-alt"></i></a>
+                </li>
+                <li>
+                    <a style="color: white;" href="{% url 'reservations:reserve_table' %}">Reserve a Table <i class="fa fa-table"></i></a>
+                </li>
+                {% else %}
+                <li>
+                    <a style="color: white;" href="{% url 'signup' %}">Sign Up <i class="fas fa-user-plus"></i></a>
+                </li>
+                <li>
+                    <a style="color: white;" href="{% url 'login' %}">Sign In <i class="fas fa-sign-in-alt"></i></a>
+                </li>
+                <li>
+                    <a style="color: gray;" href="{% url 'login' %}">Reserve a Table<i class="fa fa-table"></i></a>
+                </li>
+                {% endif %}
+            </ul>   
+            
+        </div>
+        <div>
+            <form class="d-flex" action="{% url 'search_app:searchResult' %}" method="get">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit" >Search</button>
+                <br>
+            </form> 
+        </div>
+        
+    </div>
+    
+</nav>
+<hr class="text-light">

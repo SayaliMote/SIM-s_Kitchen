@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+{% block metadescription %}
+    {% if type %}
+        {{ type.description|truncatewords:155 }}
+    {% else %}
+        Welcome to Sim's Kitchen - Great food at your fingertips
+    {% endif %}
+{% endblock %}
+{% block title %}
+    {% if type %}
+        {{ type.name }} - Sim's Kitchen
+    {% else %}
+        Sim's Kitchen - Something for everyone
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <!--Breadcrumb navigation-->
+    {% if type %}
+        <div class="row my_row_class text-light">
+            <div class="mx-auto">
+                <p><a href="{% url 'shop:all_products' %}">Our food Collection</a> | {{type.name}}</p>
+            </div>
+        </div>
+    {% endif %}
+    <div>
+        {% if type %}
+            <img class="my_image" src="{{type.image.url}}" alt="{{type.name}}">
+        </div>
+        <br>
+
+        <div>
+            <h1>{{type.name}}</h1>
+            <p>{{type.description}}</p>
+        </div>
+    {% else %}
+
+    
+    <div class="container my-5 bg-dark text-light">
+        <div class="row">
+          
+      
+          
+            <!-- Card -->
+            <div class="row">
+                <div class="col-lg-2 col-md-12 mb-4 mb-lg-0">
+                  <!-- Card -->
+                  <div
+                       class="bg-image card shadow-1-strong min-width 20"
+                       style="
+                              background-image: url('static/images/burgers menu img.jpg');
+                              min-width:18rem"
+                       >
+                    <div class="card-body text-white">
+                      
+                      
+                      <a href="%20793fc0a8-a2b6-4501-9705-a3b5d5089e27" class="btn btn-outline-light">Crave a burger?</a>
+                    </div>
+                  </div>
+                  <!-- Card -->
+                </div>
+            
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                  <!-- Card -->
+                  <div
+                       class="bg-image card shadow-1-strong"
+                       style="
+                              background-image: url('static/images/beverages_menu.jpg');
+                              "
+                       >
+                    <div class="card-body text-white">
+                      
+                      
+                      <a href="%20cb15d744-c30c-41e2-870d-06ab92e3fb4f/" class="btn btn-outline-light">Feeling thirsty?</a>
+                    </div>
+                  </div>
+                  <!-- Card -->
+                </div>
+
+                <div class="col-lg-2 col-md-12 mb-4 mb-lg-0">
+                    <!-- Card -->
+                    <div
+                         class="bg-image card shadow-1-strong"
+                         style="
+                                background-image: url('static/images/burgers menu img.jpg');
+                                "
+                         >
+                      <div class="card-body text-white">
+                        
+                        
+                        <a href="/%201df117f8-a493-4b90-b5ee-ba745bafecf5/" class="btn btn-outline-light">Want a meal deal?</a>
+                      </div>
+                    </div>
+                    <!-- Card -->
+                  </div>
+            
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                  <!-- Card -->
+                  <div
+                       class="bg-image card shadow-1-strong"
+                       style="
+                              background-image: url('static/images/pizza menu.jpg');
+                              "
+                       >
+                    <div class="card-body text-white">
+                      
+                      
+                      <a href="%208b78cb03-d999-487e-875c-4e7e6408882c/" class="btn btn-outline-light">Check out our Pizzas</a>
+                    </div>
+                  </div>
+                  <!-- Card -->
+                </div>
+              </div>
+            <!-- Card -->
+          </div>
+      
+
+
+    <br>
+    <div class="info-container bg-dark">
+        <h1 class="text-center my_title">Our menu range</h1>
+        <p class="text-justify">Serving the best food at your fingertips.</p>
+      <br>
+    </div>
+    {% endif %}
+    <div class="container">
+        <div class="row mx-auto">
+            {% for product in prods %}
+                <div class="my_bottom_margin col-9 col-lg-4 col-sm-12 col-md-4">
+                    <a href="{{product.get_absolute_url}}"><img
+                        class="card-img-top my_image "
+                            src="{{product.image.url}}"
+                                alt="{{product.name}}"></a>
+                        <div class="card-body text-light">
+                            <h4>{{product.name}}</h4>
+                            <p>€{{product.price}}</p>
+                        </div>
+                </div>
+            {% endfor %}
+        </div>
+        <br>
+    </div>
+{% endblock %}
